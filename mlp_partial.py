@@ -138,8 +138,8 @@ class generator(object):
             img = np.fliplr(img)
             msk = np.fliplr(msk)
         # resize both image and mask
-        img = resize(img, (self.image_size, self.image_size), mode='reflect')
-        msk = resize(msk, (self.image_size, self.image_size), mode='reflect') > 0.45
+        img = resize(img, (self.image_size, self.image_size), mode='reflect', anti_aliasing = True)
+        msk = resize(msk, (self.image_size, self.image_size), mode='reflect', anti_aliasing = True) > 0.45
         # add trailing channel dimension
         img = np.expand_dims(img, -1)
         msk = np.expand_dims(msk, -1)
@@ -149,7 +149,7 @@ class generator(object):
         # load dicom file as numpy array
         img = pydicom.dcmread(os.path.join(self.folder, filename)).pixel_array
         # resize image
-        img = resize(img, (self.image_size, self.image_size), mode='reflect')
+        img = resize(img, (self.image_size, self.image_size), mode='reflect', anti_aliasing = True)
         # add trailing channel dimension
         img = np.expand_dims(img, -1)
         return img
